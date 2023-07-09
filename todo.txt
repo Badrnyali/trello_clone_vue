@@ -1,0 +1,13 @@
+Trello clone : 
+
+- submitting on dialog ? is not correct
+
+- You should now display the task and description
+
+- Add the date of the task 
+
+- Restyle the css
+
+TODO :
+
+- Create a form and a validation to autheniticate (/)
