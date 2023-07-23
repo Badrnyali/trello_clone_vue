@@ -30,10 +30,6 @@ const closeDialog = () => {
 
 const isVisible = useVModel(props, "show");
 
-watch(() => props, () => {
-  console.log(props.show, isVisible.value)
-})
-
 watch(() => isVisible.value, () => {
   if (isVisible.value) {
     dialog.value.showModal();
@@ -69,10 +65,13 @@ watch(() => isVisible.value, () => {
   height: 50px;
   width: 50px;
   background-color: var(--very-dark-blue);
-  color: var(--white);
+  color: #fff;
   padding: 0px 0px 6px 0px;
 }
-
+.dark .add-board{
+  background-color: #fff;
+  color: #000;
+}
 .add-board__dialog {
   border: none;
   border-radius: 10px;

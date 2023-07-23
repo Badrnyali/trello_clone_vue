@@ -12,7 +12,6 @@ let error = ref("");
 const handleSubmit = async (newUser: NewUser) => {
   try {
     const res = await usersStore.createUser(newUser);
-    console.log(res)
     if (res?.error) {
       return error.value = "user already found";
     }

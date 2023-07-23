@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import ModeToggle from "./ModeToggle.vue"
 import { useUsers } from "../stores/users";
 import { useRouter } from "vue-router";
 
@@ -14,7 +15,10 @@ const handleLogout = async () => {
   <nav class="nav">
     <ul class="nav-list">
       <li class="nav-list__bullet">Trello Clone</li>
-      <li v-if="userStore.currentUserId" class="nav-list__bullet"><button @click="handleLogout">Logout</button></li>
+      <div class="center">
+        <ModeToggle />
+        <li v-if="userStore.currentUserId" class="nav-list__bullet"><button @click="handleLogout">Logout</button></li>
+      </div>
     </ul>
   </nav>
 </template>
@@ -26,9 +30,12 @@ const handleLogout = async () => {
   left: 0;
   width: 100%;
   background-color: var(--very-dark-blue);
-  color: var(--white);
+  color: #fff;
 }
 
+.dark .nav{
+  background-color: #20212c;
+}
 .nav-list {
   display: flex;
   justify-content: space-between;

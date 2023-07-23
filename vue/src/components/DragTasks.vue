@@ -38,6 +38,10 @@ const emits = defineEmits<{
   align-items: center;
 }
 
+.dark .drag-task__card{
+  background-color: #fff;
+  color: #000;
+}
 .drag-task__card button {
   background-color: transparent;
   padding: 1px 2px;

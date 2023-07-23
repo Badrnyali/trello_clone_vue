@@ -5,8 +5,6 @@
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
   background-color: #242424;
 
   font-synthesis: none;
@@ -19,6 +17,16 @@
   --dark-blue: #526d82;
   --light-blue: #9db2bf;
   --very-light-blue: #dde6ed;
+}
+/* :root.dark{
+  --white: #ffff;
+  --very-dark-blue: #2b2c37;
+  --dark-blue: #20212c;
+  --light-blue: #635fc7;
+  --very-light-blue: #20212c;
+} */
+:root.dark{
+  --light-blue: #635fc7;
 }
 h1,
 h2,
@@ -43,6 +51,10 @@ body {
   min-width: 320px;
   min-height: 100vh;
   background-color: var(--very-light-blue);
+  overflow-x: hidden;
+}
+.dark body {
+  background-color: #2b2c37;
 }
 ul {
   list-style: none;

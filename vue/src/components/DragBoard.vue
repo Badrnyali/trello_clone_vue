@@ -108,12 +108,13 @@ onMounted(async () => {
   min-width: 100vw;
   display: flex;
   position: relative;
+  margin: 0px 10px;
 }
 
 .drag-container__card {
   width: 210px;
   min-height: 480px;
-  background-color: var(--white);
+  background-color: #fff;
   border-radius: 15px;
   margin-right: 15px;
   padding: 15px 10px;
@@ -121,7 +122,13 @@ onMounted(async () => {
   -moz-box-shadow: 4px 4px 10px 0px var(--light-blue);
   box-shadow: 4px 4px 10px 0px var(--light-blue);
 }
-
+.dark .drag-container__card{
+  background-color: #20212c;
+  -webkit-box-shadow: 4px 4px 10px 0px #20212c;
+  -moz-box-shadow: 4px 4px 10px 0px #20212c;
+  box-shadow: 4px 4px 10px 0px #20212c;
+  color: #fff;
+}
 
 .drag-container__task {
   min-width: 100%;
@@ -131,7 +138,7 @@ onMounted(async () => {
 }
 
 .drag-container_controls {
-  justify-content: space-between;
+  justify-content: space-between !important;
 }
 
 .drag-container_controls button {
