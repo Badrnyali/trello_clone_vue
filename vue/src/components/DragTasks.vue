@@ -7,12 +7,13 @@ defineProps<{
 
 const emits = defineEmits<{
   (event: "task-removed", id: string): void;
-  (event: "task-modify", task: Tasks): void
+  (event: "task-modify", task: Tasks): void;
+  (event: "task-display", task: Tasks): void;
 }>();
 
 </script>
 <template>
-  <div class="drag-task__card">
+  <div class="drag-task__card" @click.self="emits('task-display', task)">
     <h5>{{ task.title }}</h5>
     <div class="drag-task__control">
       <button @click="emits('task-modify', task)">
@@ -36,6 +37,7 @@ const emits = defineEmits<{
   display: flex;
   justify-content: space-between;
   align-items: center;
+  cursor: pointer;
 }
 
 .dark .drag-task__card{

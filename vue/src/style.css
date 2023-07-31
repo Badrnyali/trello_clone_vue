@@ -17,6 +17,7 @@
   --dark-blue: #526d82;
   --light-blue: #9db2bf;
   --very-light-blue: #dde6ed;
+  --readonly-bg: #dde6ed77;
 }
 /* :root.dark{
   --white: #ffff;
@@ -92,11 +93,18 @@ textarea {
   margin-bottom: 10px;
   padding: 5px;
 }
+textarea{
+  resize: none;
+}
 textarea:focus-visible,
 input:focus-visible {
   outline: none;
 }
-
+input:read-only,
+textarea:read-only {
+  background-color: var(--readonly-bg) !important;
+  border-bottom: 1px solid transparent !important;
+}
 .card {
   padding: 2em;
 }

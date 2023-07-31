@@ -15,6 +15,7 @@ const props = defineProps({
 
 //Users store 
 const useUsersStore = useUsers();
+const disabled = ref(false)
 
 //toggle modify dialog
 const modifyDialogVisible = ref<boolean>(false);
@@ -57,6 +58,7 @@ const modifyTask = (task: Tasks) => {
   modifyTitle.value = task.title;
   modifyDescription.value = task.description;
   modifyDialogVisible.value = true;
+  disabled.value = false;
 }
 
 const changeTask = () => {
@@ -70,6 +72,14 @@ const changeTask = () => {
 
 const boardDeleted = (id: string) => {
   boardTasksStore.removeBoard(id)
+}
+
+const displayTask = (task: Tasks) => {
+  modifiedTask.value = task;
+  modifyTitle.value = task.title;
+  modifyDescription.value = task.description;
+  modifyDialogVisible.value = true;
+  disabled.value = true;
 }
 
 onMounted(async () => {
@@ -88,7 +98,7 @@ onMounted(async () => {
           <template #item="{ element: taskId }">
             <div v-if="tasksList.find((task: Tasks) => task.id === taskId)">
               <DragTasks :task="tasksList.find((task: Tasks) => task.id === taskId)" @task-removed="removeTask"
-                @task-modify="modifyTask" />
+                @task-modify="modifyTask" @task-display="displayTask" />
             </div>
           </template>
         </draggable>
@@ -99,20 +109,25 @@ onMounted(async () => {
       </div>
     </template>
   </draggable>
-  <TaskDialog v-model:visible="modifyDialogVisible" v-model:task-title="modifyTitle"
+  <TaskDialog v-model:disabled="disabled" v-model:visible="modifyDialogVisible" v-model:task-title="modifyTitle"
     v-model:task-description="modifyDescription" @confirm="changeTask" />
 </template>
 
 <style>
 .drag-container {
-  min-width: 100vw;
+  width: calc(100vw - 50px);
   display: flex;
   position: relative;
-  margin: 0px 10px;
+  margin: 0px 25px;
+  overflow-x: scroll;
+  padding: 25px 0;
+}
+.drag-container::-webkit-scrollbar {
+  display: none;
 }
 
 .drag-container__card {
-  width: 210px;
+  min-width: 210px;
   min-height: 480px;
   background-color: #fff;
   border-radius: 15px;

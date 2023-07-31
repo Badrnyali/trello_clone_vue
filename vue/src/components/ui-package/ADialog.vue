@@ -8,13 +8,17 @@ const emit = defineEmits<{
 }>()
 
 const props = withDefaults(defineProps<{
-  show: boolean
+  show: boolean;
+  disabled?: boolean;
 }>(), {
-  show: false
+  show: false,
+  disabled: false
 }
 )
 
 const dialog = ref();
+
+const isDisabled = useVModel(props, "disabled");
 
 const dialogConfirmed = () => {
   emit("confirm");
@@ -24,6 +28,7 @@ const dialogConfirmed = () => {
 
 const closeDialog = () => {
   dialog.value.close();
+  isDisabled.value = false;
   isVisible.value = false;
   return;
 }
@@ -40,14 +45,16 @@ watch(() => isVisible.value, () => {
   <dialog ref="dialog" class="add-board__dialog">
     <form class="add-board__form">
       <slot name="content" />
-      <ul class="add-board__list">
-        <li>
-          <button value="cancel" @click="closeDialog" formmethod="dialog">Cancel</button>
-        </li>
-        <li>
-          <button type="submit" value="default" @click.prevent="dialogConfirmed">Confirm</button>
-        </li>
-      </ul>
+      <slot name="actions">
+        <ul class="add-board__list" :class="{'disabled__list': disabled}">
+          <li>
+            <button value="cancel" @click="closeDialog" formmethod="dialog">Cancel</button>
+          </li>
+          <li v-if="!isDisabled">
+            <button type="submit" value="default" @click.prevent="dialogConfirmed">Confirm</button>
+          </li>
+        </ul>
+      </slot>
     </form>
   </dialog>
 </template>
@@ -68,10 +75,14 @@ watch(() => isVisible.value, () => {
   color: #fff;
   padding: 0px 0px 6px 0px;
 }
-.dark .add-board{
+.disabled__list {
+  justify-content: flex-end !important;
+}
+.dark .add-board {
   background-color: #fff;
   color: #000;
 }
+
 .add-board__dialog {
   border: none;
   border-radius: 10px;
