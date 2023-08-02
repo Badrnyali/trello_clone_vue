@@ -80,8 +80,8 @@ const signUpStyle = computed(() => {
 
 .sign-form {
   position: relative;
-  min-width: 250px;
-  min-height: 250px;
+  min-width: 320px;
+  min-height: 320px;
   background-color: #fff;
   text-align: left;
   border-radius: 10px;
@@ -110,6 +110,6 @@ const signUpStyle = computed(() => {
 .sign-up,
 .sign-in {
   position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-}</style>
+  width: 100%;
+}
+</style>

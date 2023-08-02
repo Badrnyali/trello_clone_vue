@@ -90,21 +90,23 @@ onMounted(async () => {
   <div v-show="loading" class="loading">Loading...</div>
   <draggable class="drag-container" :list="boardsList" group="column" item-key="id">
     <template #item="{ element: boardList }">
-      <div class="drag-container__card">
-        <h3>
-          {{ boardList.title }}
-        </h3>
-        <draggable class="drag-container__task" :list="boardList.tasks" group="tasks" item-key="title">
-          <template #item="{ element: taskId }">
-            <div v-if="tasksList.find((task: Tasks) => task.id === taskId)">
-              <DragTasks :task="tasksList.find((task: Tasks) => task.id === taskId)" @task-removed="removeTask"
-                @task-modify="modifyTask" @task-display="displayTask" />
-            </div>
-          </template>
-        </draggable>
-        <div class="drag-container_controls center">
-          <AddTask :id="boardList.id" @task-added="taskAdded" />
-          <RemoveBoard :id="boardList.id" @delete-board="boardDeleted" />
+      <div class="drag-container__content">
+        <div class="drag-container__card">
+          <div class="drag-container__title">
+            <h4>{{ boardList.title }}</h4>
+          </div>
+          <draggable class="drag-container__task" :list="boardList.tasks" group="tasks" item-key="title">
+            <template #item="{ element: taskId }">
+              <div v-if="tasksList.find((task: Tasks) => task.id === taskId)">
+                <DragTasks :task="tasksList.find((task: Tasks) => task.id === taskId)" @task-removed="removeTask"
+                  @task-modify="modifyTask" @task-display="displayTask" />
+              </div>
+            </template>
+          </draggable>
+          <div class="drag-container_controls center">
+            <AddTask :id="boardList.id" @task-added="taskAdded" />
+            <!-- <RemoveBoard :id="boardList.id" @delete-board="boardDeleted" /> -->
+          </div>
         </div>
       </div>
     </template>
@@ -115,29 +117,45 @@ onMounted(async () => {
 
 <style>
 .drag-container {
-  width: calc(100vw - 50px);
   display: flex;
-  position: relative;
-  margin: 0px 25px;
+  position: absolute;
   overflow-x: scroll;
   padding: 25px 0;
+  left: 0;
+  top: 90px;
+  bottom: 0;
+  width: 100%;
 }
-.drag-container::-webkit-scrollbar {
-  display: none;
+
+.drag-container__content {
+  box-sizing: border-box;
+  display: inline-block;
+  height: 100%;
+  margin: 0 12px;
+  scroll-margin: 8px;
+  vertical-align: top;
+  white-space: nowrap;
+  width: 272px;
 }
 
 .drag-container__card {
-  min-width: 210px;
-  min-height: 480px;
+  box-sizing: border-box;
   background-color: #fff;
-  border-radius: 15px;
-  margin-right: 15px;
-  padding: 15px 10px;
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
+  position: relative;
+  white-space: normal;
+  width: 100% !important;
+  border-radius: 10px;
+  padding: 20px 0px;
   -webkit-box-shadow: 4px 4px 10px 0px var(--light-blue);
   -moz-box-shadow: 4px 4px 10px 0px var(--light-blue);
   box-shadow: 4px 4px 10px 0px var(--light-blue);
+  padding-bottom: 0px;
 }
-.dark .drag-container__card{
+
+.dark .drag-container__card {
   background-color: #20212c;
   -webkit-box-shadow: 4px 4px 10px 0px #20212c;
   -moz-box-shadow: 4px 4px 10px 0px #20212c;
@@ -146,20 +164,55 @@ onMounted(async () => {
 }
 
 .drag-container__task {
-  min-width: 100%;
-  min-height: inherit;
-  max-height: 480px;
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 7px;
+  justify-content: space-between;
+  margin: 0 4px;
+  min-height: 0;
+  overflow-x: hidden;
   overflow-y: auto;
+  padding: 1px 4px 0;
+  z-index: 1;
 }
 
-.drag-container_controls {
-  justify-content: space-between !important;
+.drag-container__title {
+  position: relative;
+  text-align: left;
+  padding-left: 25px;
+  padding-bottom: 15px;
+}
+
+.drag-container_controls.center {
+  padding-top: 15px;
+  justify-content: space-around;
 }
 
 .drag-container_controls button {
   font-size: 14px;
 }
 
+.drag-container_controls .add-task__button {
+  background: var(--very-light-blue);
+  color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0 5px;
+  border-radius: 1px;
+  width: 100%;
+  transition: all 0.3s ease;
+}
+.drag-container_controls .add-task__button:hover {
+  background-color: var(--light-blue) !important;
+  transform: none;
+}
+.drag-container_controls .add-task__button span {
+  padding-left: 20px;
+  margin-right: 5px;
+  font-size: 16px;
+}
 .drag-container_controls .remove-board__button {
   background: red;
   color: white;

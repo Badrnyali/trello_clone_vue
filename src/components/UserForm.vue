@@ -33,12 +33,17 @@ const handleSubmit = async () => {
     <button type="submit">{{ cta }}</button>
   </form>
 </template>
-<style scoped>
-button {
+<style>
+.form input {
+  width: calc(100% - 55px) !important;
+}
+
+.form button {
   background-color: var(--light-blue);
 }
-.dark button{
-  background-color:  #635fc7;
+
+.dark .form button {
+  background-color: #635fc7;
   color: #fff;
 }
 </style>

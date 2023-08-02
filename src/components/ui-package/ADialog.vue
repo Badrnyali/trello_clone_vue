@@ -74,6 +74,7 @@ watch(() => isVisible.value, () => {
   background-color: var(--very-dark-blue);
   color: #fff;
   padding: 0px 0px 6px 0px;
+  z-index: 99;
 }
 .disabled__list {
   justify-content: flex-end !important;

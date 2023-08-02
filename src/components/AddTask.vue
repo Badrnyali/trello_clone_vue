@@ -37,7 +37,10 @@ watch(() => isVisible.value, () => {
 })
 </script>
 <template>
-  <button @click="isVisible = true" class="add-task__button">Add Task</button>
+  <button @click="isVisible = true" class="add-task__button">
+    <span class="fa fa-plus"></span>
+    <p>Add a task</p>
+  </button>
   <TaskDialog v-model:visible="isVisible" v-model:task-title="taskTitle" v-model:task-description="taskDescription"
     @confirm="taskAdded" />
 </template>
