@@ -17,7 +17,7 @@ const handleLogout = async () => {
       <li class="nav-list__bullet">Trello Clone</li>
       <div class="center">
         <ModeToggle />
-        <li v-if="userStore.currentUserId" class="nav-list__bullet"><button @click="handleLogout">Logout</button></li>
+        <li v-if="userStore.currentUserId" class="nav-list__bullet"><button class="br-1" @click="handleLogout">Logout</button></li>
       </div>
     </ul>
   </nav>
@@ -30,7 +30,7 @@ const handleLogout = async () => {
   left: 0;
   width: 100%;
   background-color: var(--very-dark-blue);
-  color: #fff;
+  color: var(--white);
 }
 
 .dark .nav{

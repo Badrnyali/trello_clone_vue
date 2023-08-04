@@ -44,6 +44,6 @@ const handleSubmit = async () => {
 
 .dark .form button {
   background-color: #635fc7;
-  color: #fff;
+  color: var(--white);
 }
 </style>

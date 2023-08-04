@@ -12,7 +12,7 @@ const signInStyle = computed(() => {
   if (!signUpActive.value) {
     return {
       backgroundColor: "var(--light-blue)",
-      color: "#fff"
+      color: "var(--white)"
     }
   }
 })
@@ -21,7 +21,7 @@ const signUpStyle = computed(() => {
   if (signUpActive.value) {
     return {
       backgroundColor: "var(--light-blue)",
-      color: "#fff"
+      color: "var(--white)"
     }
   }
 })
@@ -71,7 +71,7 @@ const signUpStyle = computed(() => {
 .home-info:first-child {
   min-height: inherit;
   background-color: var(--light-blue);
-  color: #ffff;
+  color: var(--white);
 }
 
 .dark .home-info:first-child {
@@ -82,7 +82,7 @@ const signUpStyle = computed(() => {
   position: relative;
   min-width: 320px;
   min-height: 320px;
-  background-color: #fff;
+  background-color:var(--white);
   text-align: left;
   border-radius: 10px;
   overflow: hidden;

@@ -93,7 +93,12 @@ onMounted(async () => {
       <div class="drag-container__content">
         <div class="drag-container__card">
           <div class="drag-container__title">
-            <h4>{{ boardList.title }}</h4>
+            <p>{{ boardList.title }}</p>
+            <button class="no-styles">
+              <span class="dot">.</span>
+              <span class="dot">.</span>
+              <span class="dot">.</span>
+            </button>
           </div>
           <draggable class="drag-container__task" :list="boardList.tasks" group="tasks" item-key="title">
             <template #item="{ element: taskId }">
@@ -135,19 +140,19 @@ onMounted(async () => {
   scroll-margin: 8px;
   vertical-align: top;
   white-space: nowrap;
-  width: 272px;
+  min-width: 272px;
 }
 
 .drag-container__card {
   box-sizing: border-box;
-  background-color: #fff;
+  background-color: var(--very-light-blue);
   display: flex;
   flex-direction: column;
   max-height: 100%;
   position: relative;
   white-space: normal;
   width: 100% !important;
-  border-radius: 10px;
+  border-radius: 15px;
   padding: 20px 0px;
   -webkit-box-shadow: 4px 4px 10px 0px var(--light-blue);
   -moz-box-shadow: 4px 4px 10px 0px var(--light-blue);
@@ -160,7 +165,7 @@ onMounted(async () => {
   -webkit-box-shadow: 4px 4px 10px 0px #20212c;
   -moz-box-shadow: 4px 4px 10px 0px #20212c;
   box-shadow: 4px 4px 10px 0px #20212c;
-  color: #fff;
+  color: var(--white);
 }
 
 .drag-container__task {
@@ -181,12 +186,47 @@ onMounted(async () => {
   position: relative;
   text-align: left;
   padding-left: 25px;
-  padding-bottom: 15px;
+  padding-right: 15px;
+  font-size: 20px;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+}
+
+.drag-container__title button {
+  background-color: transparent;
+  border: none;
+  display: flex;
+  align-items: flex-start;
+  cursor: pointer;
+  justify-content: center;
+  padding: 5px;
+  border-radius: 4px;
+  transition: 0.3s all ease;
+}
+
+.drag-container__title button:hover {
+  background-color: var(--light-blue);
+}
+
+.drag-container__title button span {
+  font-size: 18px;
+  font-weight: bolder;
+  margin-top: -6px;
+}
+
+.drag-container__title button span:not(:last-child) {
+  margin-right: 2px;
+}
+
+.drag-container__title p {
+  margin: 0;
 }
 
 .drag-container_controls.center {
   padding-top: 15px;
   justify-content: space-around;
+  overflow: hidden;
 }
 
 .drag-container_controls button {
@@ -194,25 +234,28 @@ onMounted(async () => {
 }
 
 .drag-container_controls .add-task__button {
-  background: var(--very-light-blue);
-  color: #000;
+  background-color: inherit;
+  color: var(--black);
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  padding: 0 5px;
-  border-radius: 1px;
+  padding: 15px 5px;
   width: 100%;
   transition: all 0.3s ease;
 }
+
 .drag-container_controls .add-task__button:hover {
   background-color: var(--light-blue) !important;
   transform: none;
 }
-.drag-container_controls .add-task__button span {
+
+.drag-container_controls .add-task__button i {
   padding-left: 20px;
-  margin-right: 5px;
+  margin-right: 10px;
   font-size: 16px;
+  margin-top: 2px;
 }
+
 .drag-container_controls .remove-board__button {
   background: red;
   color: white;

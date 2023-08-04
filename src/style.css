@@ -12,21 +12,24 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
-  --white: #ffff;
+  --white: #fff;
+  --black: #000;
   --very-dark-blue: #27374d;
   --dark-blue: #526d82;
-  --light-blue: #9db2bf;
-  --very-light-blue: #dde6ed;
+  --light-blue: #091e4224;
+  --very-light-blue: #f1f2f4;
+  --box-shadow: 0px 1px 1px var(--light-blue), 0px 0px 1px var(--light-blue), 0 1px 1px var(--light-blue), 0 0 1px #091e424f;
   --readonly-bg: #dde6ed77;
 }
-:root.dark{
+:root.dark {
   --light-blue: #635fc7;
 }
 h1,
 h2,
 h3,
 h4,
-h5 {
+h5,
+p {
   margin: 0;
 }
 a {
@@ -44,11 +47,15 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
-  background-color: var(--very-light-blue);
   overflow-x: hidden;
+  background-color: var(--light-blue);
+  background-image: url("/public/assets/hell-bg.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 .dark body {
-  background-color: #2b2c37;
+  background-color: var(--dark-blue);
+  background-image: url("/public/assets/dark-bg.jpg");
 }
 ul {
   list-style: none;
@@ -59,7 +66,6 @@ h1 {
 }
 
 button {
-  border-radius: 8px;
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
   font-size: 1em;
@@ -69,7 +75,7 @@ button {
   cursor: pointer;
   transition: all 0.25s ease;
 }
-button:hover {
+button:not(.no-styles):hover {
   transform: scale(1.05);
 }
 label {
@@ -86,7 +92,7 @@ textarea {
   margin-bottom: 10px;
   padding: 5px;
 }
-textarea{
+textarea {
   resize: none;
 }
 textarea:focus-visible,
@@ -98,10 +104,13 @@ textarea:read-only {
   background-color: var(--readonly-bg) !important;
   border-bottom: 1px solid transparent !important;
 }
+/* classes */
 .card {
   padding: 2em;
 }
-
+.br-1{
+  border-radius: 1rem;
+}
 .center {
   display: flex;
   align-items: center;
@@ -114,7 +123,6 @@ textarea:read-only {
   max-height: 100%;
   min-height: 100vh;
 }
-
 /* Transition */
 .v-enter-active,
 .v-leave-active {
@@ -153,12 +161,12 @@ textarea:read-only {
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
-    background-color: #ffffff;
+    background-color: var(--white);
   }
   a:hover {
     color: #747bff;
   }
-  button {
+  button:not(.no-styles) {
     background-color: #f9f9f9;
   }
 }

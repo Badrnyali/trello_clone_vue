@@ -71,8 +71,8 @@ watch(() => isVisible.value, () => {
   line-height: 35px;
   height: 50px;
   width: 50px;
-  background-color: var(--very-dark-blue);
-  color: #fff;
+  background-color: var(--white);
+  color: var(--black);
   padding: 0px 0px 6px 0px;
   z-index: 99;
 }
@@ -80,8 +80,8 @@ watch(() => isVisible.value, () => {
   justify-content: flex-end !important;
 }
 .dark .add-board {
-  background-color: #fff;
-  color: #000;
+  background-color: var(--very-light-blue);
+  color: var(--black);
 }
 
 .add-board__dialog {
