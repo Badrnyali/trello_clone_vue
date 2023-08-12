@@ -5,9 +5,9 @@ import AddTask from "./AddTask.vue";
 import { type Tasks } from "../interfaces"
 import DragTasks from "./DragTasks.vue";
 import { useBoardTasks } from "../stores/boardTasks"
-import RemoveBoard from "./RemoveBoard.vue";
 import TaskDialog from "./TaskDialog.vue"
 import { useUsers } from "../stores/users";
+import threeDots from "./ui-package/threeDots.vue";
 
 const props = defineProps({
   title: String
@@ -70,10 +70,6 @@ const changeTask = () => {
   boardTasksStore.modifyTask(newTask)
 }
 
-const boardDeleted = (id: string) => {
-  boardTasksStore.removeBoard(id)
-}
-
 const displayTask = (task: Tasks) => {
   modifiedTask.value = task;
   modifyTitle.value = task.title;
@@ -94,11 +90,7 @@ onMounted(async () => {
         <div class="drag-container__card">
           <div class="drag-container__title">
             <p>{{ boardList.title }}</p>
-            <button class="no-styles">
-              <span class="dot">.</span>
-              <span class="dot">.</span>
-              <span class="dot">.</span>
-            </button>
+            <threeDots :board-list="boardList"/>
           </div>
           <draggable class="drag-container__task" :list="boardList.tasks" group="tasks" item-key="title">
             <template #item="{ element: taskId }">
@@ -110,7 +102,6 @@ onMounted(async () => {
           </draggable>
           <div class="drag-container_controls center">
             <AddTask :id="boardList.id" @task-added="taskAdded" />
-            <!-- <RemoveBoard :id="boardList.id" @delete-board="boardDeleted" /> -->
           </div>
         </div>
       </div>
@@ -154,17 +145,14 @@ onMounted(async () => {
   width: 100% !important;
   border-radius: 15px;
   padding: 20px 0px;
-  -webkit-box-shadow: 4px 4px 10px 0px var(--light-blue);
-  -moz-box-shadow: 4px 4px 10px 0px var(--light-blue);
-  box-shadow: 4px 4px 10px 0px var(--light-blue);
+  -webkit-box-shadow: var(--box-shadow);
+  -moz-box-shadow: var(--box-shadow);
+  box-shadow: var(--box-shadow);
   padding-bottom: 0px;
 }
 
 .dark .drag-container__card {
-  background-color: #20212c;
-  -webkit-box-shadow: 4px 4px 10px 0px #20212c;
-  -moz-box-shadow: 4px 4px 10px 0px #20212c;
-  box-shadow: 4px 4px 10px 0px #20212c;
+  background-color: var(--very-dark-blue);
   color: var(--white);
 }
 
@@ -193,31 +181,6 @@ onMounted(async () => {
   justify-content: space-between;
 }
 
-.drag-container__title button {
-  background-color: transparent;
-  border: none;
-  display: flex;
-  align-items: flex-start;
-  cursor: pointer;
-  justify-content: center;
-  padding: 5px;
-  border-radius: 4px;
-  transition: 0.3s all ease;
-}
-
-.drag-container__title button:hover {
-  background-color: var(--light-blue);
-}
-
-.drag-container__title button span {
-  font-size: 18px;
-  font-weight: bolder;
-  margin-top: -6px;
-}
-
-.drag-container__title button span:not(:last-child) {
-  margin-right: 2px;
-}
 
 .drag-container__title p {
   margin: 0;
@@ -242,8 +205,11 @@ onMounted(async () => {
   padding: 15px 5px;
   width: 100%;
   transition: all 0.3s ease;
+  border-radius: 0px 0px 15px 15px;
 }
-
+.dark .drag-container_controls .add-task__button{
+  color: var(--white);
+}
 .drag-container_controls .add-task__button:hover {
   background-color: var(--light-blue) !important;
   transform: none;

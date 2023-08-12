@@ -79,16 +79,20 @@ watch(() => isVisible.value, () => {
 .disabled__list {
   justify-content: flex-end !important;
 }
-.dark .add-board {
-  background-color: var(--very-light-blue);
-  color: var(--black);
-}
+
 
 .add-board__dialog {
   border: none;
   border-radius: 10px;
 }
-
+.dark .add-board__dialog {
+  background-color: var(--very-light-blue);
+  color: var(--black);
+}
+.dark .add-board__dialog input, .dark .add-board__dialog textarea {
+  background-color: var(--white);
+  color: var(--black);
+}
 .add-board__form {
   display: flex;
   flex-direction: column;

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import ModeToggle from "./ModeToggle.vue"
+import ModeToggle from "../components/ui-package/ModeToggle.vue"
 import { useUsers } from "../stores/users";
 import { useRouter } from "vue-router";
 
@@ -33,9 +33,6 @@ const handleLogout = async () => {
   color: var(--white);
 }
 
-.dark .nav{
-  background-color: #20212c;
-}
 .nav-list {
   display: flex;
   justify-content: space-between;
