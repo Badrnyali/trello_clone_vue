@@ -16,6 +16,8 @@
   --black: #000;
   --very-dark-blue: #27374d;
   --dark-blue: #526d82;
+  --medium-blue: #c4c4c4;
+  --hover-medium-blue: #686868;
   --light-blue: #091e4224;
   --very-light-blue: #f1f2f4;
   --box-shadow: 0px 1px 1px var(--light-blue), 0px 0px 1px var(--light-blue), 0 1px 1px var(--light-blue), 0 0 1px var(--light-blue);
@@ -23,7 +25,7 @@
   --text-color: var(--very-dark-blue);
 }
 :root.dark {
-  --text-color: var(--very-light-blue);
+  --text-color: var(--white);
   --light-blue: #635fc7;
   --very-dark-blue: #20212c;
   --box-shadow: 0px 1px 1px var(--very-dark-blue), 0px 0px 1px var(--very-dark-blue), 0 1px 1px var(--very-dark-blue), 0 0 1px var(--very-dark-blue);
@@ -46,7 +48,6 @@ body {
   margin: 0;
   display: flex;
   place-items: center;
-  min-width: 320px;
   min-height: 100vh;
   overflow-x: hidden;
   background-color: var(--light-blue);

@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { ref, watch } from "vue";
 import { useVModel } from "@vueuse/core"
+import { useModal } from "../../composable/modal";
+const modal = useModal()
 
 const emit = defineEmits<{
   (event: "update:show", show: boolean): void;
@@ -30,6 +32,7 @@ const closeDialog = () => {
   dialog.value.close();
   isDisabled.value = false;
   isVisible.value = false;
+  modal.hideModal()
   return;
 }
 

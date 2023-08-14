@@ -63,6 +63,7 @@ export const useBoardTasks = defineStore("tasks", {
           title: task.title,
           id: taskId,
           description: task.description,
+          priority: task.priority
         });
         this.boardsList.filter((board: Board) => {
           if (board.id === task.id) {
@@ -78,6 +79,7 @@ export const useBoardTasks = defineStore("tasks", {
         if (task.id === newTask.id) {
           task.title = newTask.title;
           task.description = newTask.description;
+          task.priority = newTask.priority;
           return;
         }
       });

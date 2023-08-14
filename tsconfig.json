@@ -25,7 +25,11 @@
   "references": [{ "path": "./tsconfig.node.json" }],
   "ts-node": {
     "compilerOptions": {
-      "module": "CommonJS"
+      "module": "CommonJS",
+      "baseUrl": ".",
+      "paths": {
+        "@/*": ["src/*"],
+      }
     }
   }
 }

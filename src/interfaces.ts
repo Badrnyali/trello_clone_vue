@@ -1,3 +1,5 @@
+import { Priority } from "./constants/constant";
+
 export interface Board {
   title: string;
   id: string;
@@ -9,6 +11,7 @@ export interface Tasks {
   title: string;
   id: string;
   description: string;
+  priority: typeof Priority | string;
 }
 
 export interface NewUser {

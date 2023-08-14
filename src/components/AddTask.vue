@@ -2,6 +2,7 @@
 import { ref, watch } from "vue";
 import { Tasks } from "../interfaces";
 import TaskDialog from "./TaskDialog.vue";
+import { Priority } from "../constants/constant";
 
 const props = defineProps<{
   id: string;
@@ -14,10 +15,13 @@ const emit = defineEmits<{
 const isVisible = ref<boolean>(false)
 const taskTitle = ref<string>("");
 const taskDescription = ref<string>("");
+const taskPriority = ref<typeof Priority | string>("")
+
 
 const emptyInput = () => {
   taskTitle.value = "";
   taskDescription.value = ""
+  taskPriority.value = ""
 }
 
 const taskAdded = () => {
@@ -25,6 +29,7 @@ const taskAdded = () => {
     title: taskTitle.value,
     id: props.id,
     description: taskDescription.value,
+    priority: taskPriority.value,
   }
   emit("task-added", task);
   emptyInput();
@@ -42,7 +47,7 @@ watch(() => isVisible.value, () => {
     <p>Add a task</p>
   </button>
   <TaskDialog v-model:visible="isVisible" v-model:task-title="taskTitle" v-model:task-description="taskDescription"
-    @confirm="taskAdded" />
+    v-model:priority="taskPriority" @confirm="taskAdded" />
 </template>
 
 <style scoped></style>

@@ -1,7 +1,10 @@
 <script setup lang="ts">
+import { computed, ref } from "vue";
 import type { Tasks } from '../interfaces';
+import TaskBoard from "../views/taskBoard.vue";
+import threeDots from "./ui-package/threeDots.vue";
 
-defineProps<{
+const props = defineProps<{
   task: Tasks;
 }>();
 
@@ -11,32 +14,59 @@ const emits = defineEmits<{
   (event: "task-display", task: Tasks): void;
 }>();
 
+const closeDots = ref<boolean>(false);
+
+const priorityStyle = computed(() => {
+  if (props.task.priority === 'High') {
+    return {
+      color: 'red'
+    }
+  }
+  if (props.task.priority === 'Medium') {
+    return {
+      color: 'orange'
+    }
+  }
+  return
+})
+
+const modifyTask = (task: Tasks)=> {
+  emits('task-modify', task)
+  closeDots.value = true;
+}
+
+const deleteTask = (task: Tasks)=> {
+  emits('task-removed', task.id)
+  closeDots.value = true;
+}
 </script>
 <template>
   <div class="drag-task__card" @click.self="emits('task-display', task)">
-    <p>{{ task.title }}</p>
-    <div class="drag-task__control">
-      <button @click="emits('task-modify', task)">
-        <i class="fa fa-pencil"></i>
-      </button>
-      <button>
-        <i class="fa fa-remove" @click="emits('task-removed', task.id)"></i>
-      </button>
+    <div>
+      <p>{{ task.title }}</p>
+        <threeDots :close-dots="closeDots" @close-dots="closeDots = false">
+          <li class="task_menu-li"><a @click="modifyTask(task)">Modify Task</a></li>
+          <li class="task_menu-li"><a @click="deleteTask(task)">Delete Task</a></li>
+        </threeDots>
     </div>
+    <span v-show="task.priority" class="drag__task-priority" :style="priorityStyle">
+      <i class="fa fa-angle-double-up"></i>
+    </span>
   </div>
 </template>
 
 <style scoped>
 .drag-task__card {
+  position: relative;
   background-color: var(--white);
-  padding: 15px 10px 15px 15px;
+  padding: 10px 10px 10px 15px;
   margin: 10px 20px;
   border-radius: 4px;
   color: var(--black);
   font-weight: 500;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
   cursor: pointer;
   -webkit-box-shadow: var(--box-shadow);
   -moz-box-shadow: var(--box-shadow);
@@ -44,17 +74,15 @@ const emits = defineEmits<{
   transition: 0.3s all ease;
 }
 
-.drag-task__control {
-  opacity: 0;
-  transition: 0.3s all ease;
+.drag-task__card>div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
 }
 
 .drag-task__card:hover {
   background-color: var(--very-light-blue);
-}
-
-.drag-task__card:hover .drag-task__control {
-  opacity: 1;
 }
 
 .dark .drag-task__card {
@@ -82,5 +110,15 @@ const emits = defineEmits<{
 
 .drag-task__card .fa-remove {
   color: red;
+}
+
+.drag__task-priority {
+  position: relative;
+  padding: 0;
+  padding-top: 5px;
+  margin-left: 5px;
+  font-size: 10px;
+  font-weight: bolder;
+  cursor: pointer;
 }
 </style>

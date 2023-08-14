@@ -27,10 +27,10 @@ const handleSubmit = async () => {
 
 <template>
   <form class="form" action="" @submit.prevent="handleSubmit">
-    <FormInput v-model="username" type="text" name="username" />
-    <FormInput v-model="password" type="password" name="password" />
+    <FormInput v-model="username" type="text" name="Username" />
+    <FormInput v-model="password" type="password" name="Password" />
     <p v-if="error">{{ error }}</p>
-    <button type="submit">{{ cta }}</button>
+    <button type="submit" class="submit no-styles">{{ cta }}</button>
   </form>
 </template>
 <style>
@@ -38,12 +38,17 @@ const handleSubmit = async () => {
   width: calc(100% - 55px) !important;
 }
 
-.form button {
+.form button.submit {
   background-color: var(--light-blue);
+  color: var(--text-color);
+  font-weight: bolder;
+}
+.form button.submit:hover{
+  background-color: var(--very-light-blue);
+  color: #000;
 }
 
 .dark .form button {
   background-color: #635fc7;
-  color: var(--white);
 }
 </style>

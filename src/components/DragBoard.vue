@@ -8,6 +8,7 @@ import { useBoardTasks } from "../stores/boardTasks"
 import TaskDialog from "./TaskDialog.vue"
 import { useUsers } from "../stores/users";
 import threeDots from "./ui-package/threeDots.vue";
+import { Priority } from "../constants/constant";
 
 const props = defineProps({
   title: String
@@ -17,12 +18,15 @@ const props = defineProps({
 const useUsersStore = useUsers();
 const disabled = ref(false)
 
+const closeDots = ref<boolean>(false)
+
 //toggle modify dialog
 const modifyDialogVisible = ref<boolean>(false);
 
 const modifiedTask = ref<Tasks>();
 const modifyTitle = ref<string>("");
 const modifyDescription = ref<string>("");
+const modifyPriority = ref<typeof Priority | string>("")
 
 const loading = computed(() => boardTasksStore.getBoardTasks.loading)
 const boardTasksStore = useBoardTasks();
@@ -57,6 +61,7 @@ const modifyTask = (task: Tasks) => {
   modifiedTask.value = task;
   modifyTitle.value = task.title;
   modifyDescription.value = task.description;
+  modifyPriority.value = task.priority;
   modifyDialogVisible.value = true;
   disabled.value = false;
 }
@@ -66,6 +71,7 @@ const changeTask = () => {
     id: modifiedTask.value?.id,
     title: modifyTitle.value,
     description: modifyDescription.value,
+    priority: modifyPriority.value,
   }
   boardTasksStore.modifyTask(newTask)
 }
@@ -74,10 +80,15 @@ const displayTask = (task: Tasks) => {
   modifiedTask.value = task;
   modifyTitle.value = task.title;
   modifyDescription.value = task.description;
+  modifyPriority.value = task.priority;
   modifyDialogVisible.value = true;
   disabled.value = true;
 }
 
+const removeBoard = (id: string)=> {
+  boardTasksStore.removeBoard(id);
+  closeDots.value = false
+}
 onMounted(async () => {
   await boardTasksStore.fetchBoardsPosts();
 })
@@ -90,7 +101,10 @@ onMounted(async () => {
         <div class="drag-container__card">
           <div class="drag-container__title">
             <p>{{ boardList.title }}</p>
-            <threeDots :board-list="boardList"/>
+            <threeDots :close-dots="closeDots" @close-dots="closeDots = false">
+              <li class="task_menu-li"><a>Modify Card</a></li>
+              <li class="task_menu-li"><a @click="removeBoard(boardList.id)">Delete Card</a></li>
+            </threeDots>
           </div>
           <draggable class="drag-container__task" :list="boardList.tasks" group="tasks" item-key="title">
             <template #item="{ element: taskId }">
@@ -108,7 +122,7 @@ onMounted(async () => {
     </template>
   </draggable>
   <TaskDialog v-model:disabled="disabled" v-model:visible="modifyDialogVisible" v-model:task-title="modifyTitle"
-    v-model:task-description="modifyDescription" @confirm="changeTask" />
+    v-model:task-description="modifyDescription" v-model:priority="modifyPriority" @confirm="changeTask" />
 </template>
 
 <style>
@@ -164,10 +178,7 @@ onMounted(async () => {
   justify-content: space-between;
   margin: 0 4px;
   min-height: 0;
-  overflow-x: hidden;
-  overflow-y: auto;
   padding: 1px 4px 0;
-  z-index: 1;
 }
 
 .drag-container__title {
@@ -207,9 +218,11 @@ onMounted(async () => {
   transition: all 0.3s ease;
   border-radius: 0px 0px 15px 15px;
 }
-.dark .drag-container_controls .add-task__button{
+
+.dark .drag-container_controls .add-task__button {
   color: var(--white);
 }
+
 .drag-container_controls .add-task__button:hover {
   background-color: var(--light-blue) !important;
   transform: none;

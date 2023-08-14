@@ -12,7 +12,7 @@ const signInStyle = computed(() => {
   if (!signUpActive.value) {
     return {
       backgroundColor: "var(--light-blue)",
-      color: "var(--white)"
+      color: "var(--text-color)"
     }
   }
 })
@@ -21,7 +21,7 @@ const signUpStyle = computed(() => {
   if (signUpActive.value) {
     return {
       backgroundColor: "var(--light-blue)",
-      color: "var(--white)"
+      color: "var(--text-color)"
     }
   }
 })
@@ -36,8 +36,8 @@ const signUpStyle = computed(() => {
     <div class="home-info center" v-if="!useStore.currentUserId">
       <div class="sign-form">
         <div class="sign-form__control">
-          <button @click="signUpActive = true" :style="signUpStyle">Sign Up</button>
-          <button @click="signUpActive = false" :style="signInStyle">Sign In</button>
+          <button class="no-styles" @click="signUpActive = true" :style="signUpStyle">Sign Up</button>
+          <button class="no-styles" @click="signUpActive = false" :style="signInStyle">Sign In</button>
         </div>
         <div class="sign-form_content">
           <Transition>
@@ -72,6 +72,7 @@ const signUpStyle = computed(() => {
   min-height: inherit;
   background-color: var(--light-blue);
   color: var(--white);
+  align-items: flex-start;
 }
 
 .dark .home-info:first-child {
@@ -80,8 +81,8 @@ const signUpStyle = computed(() => {
 
 .sign-form {
   position: relative;
-  min-width: 320px;
-  min-height: 320px;
+  min-width: 300px;
+  min-height: 300px;
   background-color:var(--white);
   text-align: left;
   border-radius: 10px;
@@ -97,8 +98,11 @@ const signUpStyle = computed(() => {
 .sign-form__control button {
   width: 50%;
   border-radius: 0;
+  transition: all 0.3s ease;
 }
-
+.sign-form__control button:hover{
+  background-color: var(--readonly-bg);
+}
 .sign-form__control button:hover {
   transform: none;
 }

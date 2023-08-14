@@ -1,52 +1,64 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import { Board } from '../../interfaces';
-import { useBoardTasks } from '../../stores/boardTasks';
+import { ref, watch } from 'vue';
+import { vOnClickOutside } from '@vueuse/components'
 
-defineProps<{
-  boardList: Board;
-}>();
 
-const boardTasksStore = useBoardTasks();
+const props = defineProps<{
+  closeDots: boolean
+}>()
+const emits = defineEmits(["close-dots"])
 const taskMenu = ref();
 
 const toggleHandler = () => {
   const taskMenus = document.querySelectorAll(".task__menu")
   if (taskMenus.length) {
     taskMenus.forEach(task => {
-      if(taskMenu.value === task){
-        if(!task.classList.contains('active')){
+      if (taskMenu.value === task) {
+        if (!task.classList.contains('active')) {
           task.classList.add('active')
         } else {
           task.classList.remove('active')
         }
       }
-      if(taskMenu.value !== task && task.classList.contains('active')){
+      if (taskMenu.value !== task && task.classList.contains('active')) {
         task.classList.remove('active')
       }
     })
   }
 }
+const closeMenu = ()=> {
+  const taskMenus = document.querySelectorAll(".task__menu")
+  taskMenus.forEach(task => {
+      task.classList.remove("active")
+    })
+}
+watch(() => props.closeDots, () => {
+  if (props.closeDots) {
+    closeMenu()
+    emits("close-dots")
+  }
+})
 </script>
 <template>
-  <button class="no-styles three__dots" @click="toggleHandler">
-    <span class="dot">.</span>
-    <span class="dot">.</span>
-    <span class="dot">.</span>
-  </button>
-  <div ref="taskMenu" class="task__menu">
-    <div class="task__menu-title">
-      <p>Action List</p>
-      <a @click="toggleHandler">X</a>
+  <div>
+    <button class="no-styles three__dots" @click="toggleHandler">
+      <span class="dot">.</span>
+      <span class="dot">.</span>
+      <span class="dot">.</span>
+    </button>
+    <div ref="taskMenu" class="task__menu" v-on-click-outside="closeMenu">
+      <div class="task__menu-title">
+        <p>Action List</p>
+        <a @click="closeMenu">X</a>
+      </div>
+      <ul>
+        <slot></slot>
+      </ul>
     </div>
-    <ul>
-      <li class="task_menu-li"><a>Modify Card</a></li>
-      <li class="task_menu-li"><a @click="boardTasksStore.removeBoard(boardList.id)">Delete Card</a></li>
-    </ul>
   </div>
 </template>
 
-<style scoped>
+<style>
 .three__dots {
   position: relative;
   background-color: transparent;
@@ -73,7 +85,7 @@ span {
 
 .task__menu {
   position: absolute;
-  display: flex;
+  display: none;
   flex-direction: column;
   width: 200px;
   background-color: var(--very-light-blue);
@@ -82,7 +94,6 @@ span {
   color: var(--text-color);
   top: 35px;
   border-radius: 10px;
-  opacity: 0;
   padding-top: 15px;
   padding-bottom: 5px;
   transition: opacity 0.3s ease;
@@ -129,7 +140,11 @@ span {
 }
 
 .task__menu.active {
-  opacity: 1;
+  display: flex;
+}
+
+.task__menu.active~.drag-container__task {
+  z-index: 99;
 }
 
 span:not(:last-child) {

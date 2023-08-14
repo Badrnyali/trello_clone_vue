@@ -24,3 +24,12 @@ function handleInput(e: Event) {
     </div>
   </div>
 </template>
+
+<style>
+.field {
+  margin-bottom: 15px;
+}
+.field:last-child{
+  margin-bottom: 25px;
+}
+</style>
