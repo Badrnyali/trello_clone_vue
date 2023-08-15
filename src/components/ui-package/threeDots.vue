@@ -4,7 +4,7 @@ import { vOnClickOutside } from '@vueuse/components'
 
 
 const props = defineProps<{
-  closeDots: boolean
+  closeDots?: boolean
 }>()
 const emits = defineEmits(["close-dots"])
 const taskMenu = ref();
@@ -41,7 +41,7 @@ watch(() => props.closeDots, () => {
 </script>
 <template>
   <div>
-    <button class="no-styles three__dots" @click="toggleHandler">
+    <button class="no-styles three__dots" @click.stop="toggleHandler">
       <span class="dot">.</span>
       <span class="dot">.</span>
       <span class="dot">.</span>

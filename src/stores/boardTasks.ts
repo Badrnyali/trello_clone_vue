@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import { toRaw } from "vue";
 import { Board, Tasks } from "../interfaces";
 import { v4 as uuidv4 } from "uuid";
 import { useUsers } from "./users";
@@ -63,7 +64,7 @@ export const useBoardTasks = defineStore("tasks", {
           title: task.title,
           id: taskId,
           description: task.description,
-          priority: task.priority
+          priority: task.priority,
         });
         this.boardsList.filter((board: Board) => {
           if (board.id === task.id) {
@@ -73,7 +74,6 @@ export const useBoardTasks = defineStore("tasks", {
       }
       await this.postBoardTask();
     },
-
     async modifyTask(newTask: Tasks) {
       this.tasksList.filter((task: Tasks) => {
         if (task.id === newTask.id) {
@@ -85,7 +85,47 @@ export const useBoardTasks = defineStore("tasks", {
       });
       await this.postBoardTask();
     },
-
+    async updateBoard(cardIndex?: number, taskIds?: string[]) {
+      await this.postBoardTask();
+    },
+    cloneTask(taskId: string) {
+      const newId = uuidv4();
+      this.tasksList.forEach((taskList: Tasks) => {
+        if (taskList.id === taskId) {
+          const clonedTask = structuredClone(toRaw(taskList));
+          this.tasksList.push({
+            ...clonedTask,
+            id: newId,
+          });
+        }
+      });
+      return newId;
+    },
+    async duplicateBoard(board: Board) {
+      const { title, id, userId, tasks } = board;
+      const index = this.boardsList.findIndex((board) => board.id === id);
+      let tasksId: string[] = [];
+      if (board.tasks.length) {
+        board.tasks.forEach((task) => {
+          const newId = this.cloneTask(task);
+          tasksId.push(newId);
+        });
+      }
+      this.boardsList.splice(index, 0, {
+        title,
+        id: uuidv4(),
+        userId,
+        tasks: tasksId,
+      });
+      await this.postBoardTask();
+    },
+    async duplicateTask(taskId: string, boardId: string) {
+      const board = this.boardsList.find((board) => board.id === boardId)
+      const index = board?.tasks.findIndex((task)=> task === taskId)!
+      const newId = this.cloneTask(taskId);
+      board?.tasks.splice(index, 0, newId)
+      await this.postBoardTask();
+    },
     async removeTask(id: string) {
       this.boardsList.forEach((board: Board) => {
         board.tasks.filter((task) => {

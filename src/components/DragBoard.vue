@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { ref, watch, computed, onMounted } from "vue";
-import draggable from "vuedraggable"
+import { ref, watch, computed, onMounted, nextTick } from "vue";
+import draggable from 'vuedraggable'
 import AddTask from "./AddTask.vue";
 import { type Tasks } from "../interfaces"
 import DragTasks from "./DragTasks.vue";
 import { useBoardTasks } from "../stores/boardTasks"
 import TaskDialog from "./TaskDialog.vue"
 import { useUsers } from "../stores/users";
-import threeDots from "./ui-package/threeDots.vue";
 import { Priority } from "../constants/constant";
+import CardThreeDots from "./CardThreeDots.vue"
 
 const props = defineProps({
   title: String
@@ -18,7 +18,6 @@ const props = defineProps({
 const useUsersStore = useUsers();
 const disabled = ref(false)
 
-const closeDots = ref<boolean>(false)
 
 //toggle modify dialog
 const modifyDialogVisible = ref<boolean>(false);
@@ -85,31 +84,28 @@ const displayTask = (task: Tasks) => {
   disabled.value = true;
 }
 
-const removeBoard = (id: string)=> {
-  boardTasksStore.removeBoard(id);
-  closeDots.value = false
+const dragend = () => {
+  boardTasksStore.updateBoard()
 }
+
 onMounted(async () => {
   await boardTasksStore.fetchBoardsPosts();
 })
 </script>
 <template>
   <div v-show="loading" class="loading">Loading...</div>
-  <draggable class="drag-container" :list="boardsList" group="column" item-key="id">
+  <draggable class="drag-container" :list="boardsList" group="columns" item-key="id">
     <template #item="{ element: boardList }">
-      <div class="drag-container__content">
+      <div class="drag-container__content" :data-board="JSON.stringify(boardList)">
         <div class="drag-container__card">
           <div class="drag-container__title">
             <p>{{ boardList.title }}</p>
-            <threeDots :close-dots="closeDots" @close-dots="closeDots = false">
-              <li class="task_menu-li"><a>Modify Card</a></li>
-              <li class="task_menu-li"><a @click="removeBoard(boardList.id)">Delete Card</a></li>
-            </threeDots>
+            <CardThreeDots :board-list="boardList" />
           </div>
-          <draggable class="drag-container__task" :list="boardList.tasks" group="tasks" item-key="title">
+          <draggable class="drag-container__task" :list="boardList.tasks" group="tasks" item-key="uid" @end="dragend">
             <template #item="{ element: taskId }">
               <div v-if="tasksList.find((task: Tasks) => task.id === taskId)">
-                <DragTasks :task="tasksList.find((task: Tasks) => task.id === taskId)" @task-removed="removeTask"
+                <DragTasks :task="tasksList.find((task: Tasks) => task.id === taskId)" :board-id="boardList.id" @task-removed="removeTask"
                   @task-modify="modifyTask" @task-display="displayTask" />
               </div>
             </template>
@@ -177,7 +173,7 @@ onMounted(async () => {
   gap: 7px;
   justify-content: space-between;
   margin: 0 4px;
-  min-height: 0;
+  min-height: 20px;
   padding: 1px 4px 0;
 }
 

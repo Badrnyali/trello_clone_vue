@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
 import type { Tasks } from '../interfaces';
-import TaskBoard from "../views/taskBoard.vue";
 import threeDots from "./ui-package/threeDots.vue";
+import { useBoardTasks } from "../stores/boardTasks";
 
 const props = defineProps<{
   task: Tasks;
+  boardId: string;
 }>();
 
 const emits = defineEmits<{
@@ -14,6 +15,8 @@ const emits = defineEmits<{
   (event: "task-display", task: Tasks): void;
 }>();
 
+const boardTasksStore =  useBoardTasks()
+  
 const closeDots = ref<boolean>(false);
 
 const priorityStyle = computed(() => {
@@ -35,6 +38,9 @@ const modifyTask = (task: Tasks)=> {
   closeDots.value = true;
 }
 
+const duplicateTask = (task: Tasks)=>{
+  boardTasksStore.duplicateTask(task.id, props.boardId)
+}
 const deleteTask = (task: Tasks)=> {
   emits('task-removed', task.id)
   closeDots.value = true;
@@ -45,8 +51,9 @@ const deleteTask = (task: Tasks)=> {
     <div>
       <p>{{ task.title }}</p>
         <threeDots :close-dots="closeDots" @close-dots="closeDots = false">
-          <li class="task_menu-li"><a @click="modifyTask(task)">Modify Task</a></li>
-          <li class="task_menu-li"><a @click="deleteTask(task)">Delete Task</a></li>
+          <li class="task_menu-li" @click="duplicateTask(task)">Duplicate Task</li>
+          <li class="task_menu-li" @click="modifyTask(task)">Modify Task</li>
+          <li class="task_menu-li"  @click="deleteTask(task)">Delete Task</li>
         </threeDots>
     </div>
     <span v-show="task.priority" class="drag__task-priority" :style="priorityStyle">
