@@ -2,7 +2,7 @@
 import { useVModel } from "@vueuse/core"
 import ADialog from "./ui-package/ADialog.vue";
 import FiltersTask from "./ui-package/FiltersTask.vue";
-import { Priority } from "../constants/constant";
+import { Priority, Score } from "../constants/constant";
 
 const emit = defineEmits<{
   (event: "confirm"): void;
@@ -14,6 +14,7 @@ const props = withDefaults(defineProps<{
   visible: boolean;
   disabled?: boolean;
   priority: typeof Priority | string;
+  score: number | undefined;
 }>(), {
   disabled: false
 })
@@ -22,11 +23,9 @@ const visible = useVModel(props, "visible")
 const title = useVModel(props, "taskTitle")
 const description = useVModel(props, "taskDescription")
 const priority = useVModel(props, "priority")
+const score = useVModel(props, "score")
 const isDisabled = useVModel(props, "disabled");
 
-const filtersHandler = (item: typeof Priority | string)=> {
-  priority.value = item
-}
 </script>
 <template>
   <ADialog v-model:show="visible" @confirm="emit('confirm')" v-model:disabled="isDisabled">
@@ -34,7 +33,8 @@ const filtersHandler = (item: typeof Priority | string)=> {
       <div class="filters">
         <p>Filters</p>
         <ul class="filters__ul">
-          <FiltersTask :priority="priority" @filters-clicked="filtersHandler"/>
+          <FiltersTask :item="priority" label="Priority" :items="Priority"  :disabled="disabled" @filters-clicked="(item)=> priority = item"/>
+          <FiltersTask :item="score" label="Score" :items="Score"  :disabled="disabled" @filters-clicked="(item)=> score = item"/>
         </ul>
       </div>
       <label for="title">Task Title</label>
