@@ -26,6 +26,8 @@ const modifiedTask = ref<Tasks>();
 const modifyTitle = ref<string>("");
 const modifyDescription = ref<string>("");
 const modifyPriority = ref<typeof Priority | string>("")
+const modifyScore = ref<undefined| number>(undefined)
+
 
 const loading = computed(() => boardTasksStore.getBoardTasks.loading)
 const boardTasksStore = useBoardTasks();
@@ -61,6 +63,7 @@ const modifyTask = (task: Tasks) => {
   modifyTitle.value = task.title;
   modifyDescription.value = task.description;
   modifyPriority.value = task.priority;
+  modifyScore.value = task.score;
   modifyDialogVisible.value = true;
   disabled.value = false;
 }
@@ -71,6 +74,7 @@ const changeTask = () => {
     title: modifyTitle.value,
     description: modifyDescription.value,
     priority: modifyPriority.value,
+    score: modifyScore.value,
   }
   boardTasksStore.modifyTask(newTask)
 }
@@ -80,6 +84,7 @@ const displayTask = (task: Tasks) => {
   modifyTitle.value = task.title;
   modifyDescription.value = task.description;
   modifyPriority.value = task.priority;
+  modifyScore.value = task.score;
   modifyDialogVisible.value = true;
   disabled.value = true;
 }
@@ -118,7 +123,7 @@ onMounted(async () => {
     </template>
   </draggable>
   <TaskDialog v-model:disabled="disabled" v-model:visible="modifyDialogVisible" v-model:task-title="modifyTitle"
-    v-model:task-description="modifyDescription" v-model:priority="modifyPriority" @confirm="changeTask" />
+    v-model:task-description="modifyDescription" v-model:priority="modifyPriority" v-model:score="modifyScore" @confirm="changeTask" />
 </template>
 
 <style>

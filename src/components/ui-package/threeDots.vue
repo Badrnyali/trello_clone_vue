@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
-import { vOnClickOutside } from '@vueuse/components'
+import { onClickOutside } from '@vueuse/core'
 
 
 const props = defineProps<{
@@ -38,6 +38,8 @@ watch(() => props.closeDots, () => {
     emits("close-dots")
   }
 })
+
+onClickOutside(taskMenu, closeMenu)
 </script>
 <template>
   <div>
@@ -46,10 +48,10 @@ watch(() => props.closeDots, () => {
       <span class="dot">.</span>
       <span class="dot">.</span>
     </button>
-    <div ref="taskMenu" class="task__menu" v-on-click-outside="closeMenu">
+    <div ref="taskMenu" class="task__menu">
       <div class="task__menu-title">
         <p>Action List</p>
-        <a @click="closeMenu">X</a>
+        <a @click.stop="closeMenu">X</a>
       </div>
       <ul>
         <slot></slot>

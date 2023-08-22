@@ -12,6 +12,7 @@ export interface Tasks {
   id: string;
   description: string;
   priority: typeof Priority | string;
+  score: number;
 }
 
 export interface NewUser {

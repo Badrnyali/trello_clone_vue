@@ -15,8 +15,8 @@ const emits = defineEmits<{
   (event: "task-display", task: Tasks): void;
 }>();
 
-const boardTasksStore =  useBoardTasks()
-  
+const boardTasksStore = useBoardTasks()
+
 const closeDots = ref<boolean>(false);
 
 const priorityStyle = computed(() => {
@@ -33,32 +33,35 @@ const priorityStyle = computed(() => {
   return
 })
 
-const modifyTask = (task: Tasks)=> {
+const modifyTask = (task: Tasks) => {
   emits('task-modify', task)
   closeDots.value = true;
 }
 
-const duplicateTask = (task: Tasks)=>{
+const duplicateTask = (task: Tasks) => {
   boardTasksStore.duplicateTask(task.id, props.boardId)
 }
-const deleteTask = (task: Tasks)=> {
+const deleteTask = (task: Tasks) => {
   emits('task-removed', task.id)
   closeDots.value = true;
 }
 </script>
 <template>
-  <div class="drag-task__card" @click.self="emits('task-display', task)">
+  <div class="drag-task__card" @click="emits('task-display', task)">
     <div>
-      <p>{{ task.title }}</p>
-        <threeDots :close-dots="closeDots" @close-dots="closeDots = false">
-          <li class="task_menu-li" @click="duplicateTask(task)">Duplicate Task</li>
-          <li class="task_menu-li" @click="modifyTask(task)">Modify Task</li>
-          <li class="task_menu-li"  @click="deleteTask(task)">Delete Task</li>
-        </threeDots>
+      <p>        
+        {{ task.title }}
+        <span v-show="task.priority" class="drag__task-priority" :style="priorityStyle">
+          <i class="fa fa-angle-double-up"></i>
+        </span>
+      </p>
+      <threeDots :close-dots="closeDots" @close-dots="closeDots = false">
+        <li class="task_menu-li" @click.stop="duplicateTask(task)">Duplicate Task</li>
+        <li class="task_menu-li" @click.stop="modifyTask(task)">Modify Task</li>
+        <li class="task_menu-li" @click.stop="deleteTask(task)">Delete Task</li>
+      </threeDots>
     </div>
-    <span v-show="task.priority" class="drag__task-priority" :style="priorityStyle">
-      <i class="fa fa-angle-double-up"></i>
-    </span>
+
   </div>
 </template>
 
@@ -72,7 +75,6 @@ const deleteTask = (task: Tasks)=> {
   color: var(--black);
   font-weight: 500;
   display: flex;
-  flex-direction: column;
   align-items: flex-start;
   cursor: pointer;
   -webkit-box-shadow: var(--box-shadow);
@@ -124,7 +126,7 @@ const deleteTask = (task: Tasks)=> {
   padding: 0;
   padding-top: 5px;
   margin-left: 5px;
-  font-size: 10px;
+  font-size: 18px;
   font-weight: bolder;
   cursor: pointer;
 }
