@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
 import { Priority } from "@/constants/constant"
-import { useModal } from "@/composable/modal";
 import { onClickOutside } from '@vueuse/core'
 
 
@@ -20,10 +19,10 @@ const emits = defineEmits<{
 
 
 const filtersRef = ref();
-const modal = useModal();
+const show = ref(false)
 
 const modalStyle = computed(() => {
-  if (modal.show.value) {
+  if (show.value) {
     return 'show'
   }
   return 'hide'
@@ -31,15 +30,16 @@ const modalStyle = computed(() => {
 
 const toggleModal = () => {
   if(props.disabled) return
-  if (modal.show.value) {
-    return modal.hideModal()
+  if (show.value) {
+    return show.value = false
   }
-  return modal.showModal()
+  return show.value = true
 }
 
-const itemClicked = (item: typeof Priority) => {
+const itemClicked = (item: typeof Priority | number) => {
+  console.log(item)
   emits("filters-clicked", item)
-  modal.hideModal();
+  show.value = false
 }
 
 const removePriority = () => {
@@ -48,7 +48,7 @@ const removePriority = () => {
 }
 
 onClickOutside(filtersRef, ()=> {
-  return modal.hideModal()
+  return show.value = false
 })
 </script>
 <template>

@@ -54,6 +54,9 @@ const deleteTask = (task: Tasks) => {
         <span v-show="task.priority" class="drag__task-priority" :style="priorityStyle">
           <i class="fa fa-angle-double-up"></i>
         </span>
+        <span v-show="task.score" class="drag__task-priority drag__task-score">
+          {{ task.score }}
+        </span>
       </p>
       <threeDots :close-dots="closeDots" @close-dots="closeDots = false">
         <li class="task_menu-li" @click.stop="duplicateTask(task)">Duplicate Task</li>
@@ -83,6 +86,20 @@ const deleteTask = (task: Tasks) => {
   transition: 0.3s all ease;
 }
 
+.drag__task-score{
+  padding: 2px 4px !important;
+  background-color: var(--dark-blue);
+  border-radius: 30%;
+  color: var(--white);
+  font-size: 14px !important;
+  -webkit-box-shadow: var(--box-shadow);
+  -moz-box-shadow: var(--box-shadow);
+  box-shadow: var(--box-shadow);
+}
+.dark .drag__task-score{
+  background-color: var(--light-blue);
+  color: var(--black);
+}
 .drag-task__card>div {
   display: flex;
   justify-content: space-between;
