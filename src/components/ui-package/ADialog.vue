@@ -2,6 +2,8 @@
 import { ref, watch } from "vue";
 import { useVModel } from "@vueuse/core"
 import { useModal } from "../../composable/modal";
+import ButtonMd from "./ButtonMd.vue"
+
 const modal = useModal()
 
 const emit = defineEmits<{
@@ -46,15 +48,15 @@ watch(() => isVisible.value, () => {
 </script>
 <template>
   <dialog ref="dialog" class="add-board__dialog">
-    <form class="add-board__form">
+    <form class="add-board__form" @submit.prevent>
       <slot name="content" />
       <slot name="actions">
         <ul class="add-board__list" :class="{'disabled__list': disabled}">
           <li>
-            <button value="cancel" @click="closeDialog" formmethod="dialog">Cancel</button>
+            <ButtonMd label="Cancel" @btn-click="closeDialog" />
           </li>
           <li v-if="!isDisabled">
-            <button type="submit" value="default" @click.prevent="dialogConfirmed">Confirm</button>
+            <ButtonMd label="Confirm" @btn-click="dialogConfirmed" />
           </li>
         </ul>
       </slot>

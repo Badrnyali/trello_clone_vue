@@ -3,6 +3,7 @@ import { toRaw } from "vue";
 import { Board, Tasks } from "../interfaces";
 import { v4 as uuidv4 } from "uuid";
 import { useUsers } from "./users";
+import { Priority } from "../constants/constant";
 
 interface BoardTasksState {
   boardsList: Board[];
@@ -67,9 +68,13 @@ export const useBoardTasks = defineStore("tasks", {
           priority: task.priority,
           score: task.score,
         });
+
         this.boardsList.filter((board: Board) => {
           if (board.id === task.id) {
-            return board.tasks.push(taskId);
+            if (task.priority === Priority.High) {
+              return board.tasks.splice(0, 0, taskId);
+            }
+              return board.tasks.push(taskId);            
           }
         });
       }
@@ -122,10 +127,10 @@ export const useBoardTasks = defineStore("tasks", {
       await this.postBoardTask();
     },
     async duplicateTask(taskId: string, boardId: string) {
-      const board = this.boardsList.find((board) => board.id === boardId)
-      const index = board?.tasks.findIndex((task)=> task === taskId)!
+      const board = this.boardsList.find((board) => board.id === boardId);
+      const index = board?.tasks.findIndex((task) => task === taskId)!;
       const newId = this.cloneTask(taskId);
-      board?.tasks.splice(index, 0, newId)
+      board?.tasks.splice(index, 0, newId);
       await this.postBoardTask();
     },
     async removeTask(id: string) {

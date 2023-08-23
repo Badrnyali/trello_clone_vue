@@ -57,10 +57,6 @@ const signUpStyle = computed(() => {
   min-width: 100vw;
 }
 
-.dark .home {
-  background-color: #2b2c37;
-}
-
 .home-info {
   padding: 0px 20px;
   flex: 1;
@@ -70,13 +66,9 @@ const signUpStyle = computed(() => {
 
 .home-info:first-child {
   min-height: inherit;
-  background-color: var(--light-blue);
+  background-color: #00000054;
   color: var(--white);
   align-items: flex-start;
-}
-
-.dark .home-info:first-child {
-  background-color: #20212c;
 }
 
 .sign-form {

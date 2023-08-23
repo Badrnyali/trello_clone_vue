@@ -2,6 +2,7 @@
 import ModeToggle from "../components/ui-package/ModeToggle.vue"
 import { useUsers } from "../stores/users";
 import { useRouter } from "vue-router";
+import ButtonMd from "./ui-package/ButtonMd.vue";
 
 const router = useRouter();
 const userStore = useUsers();
@@ -17,7 +18,7 @@ const handleLogout = async () => {
       <li class="nav-list__bullet">Trello Clone</li>
       <div class="center">
         <ModeToggle />
-        <li v-if="userStore.currentUserId" class="nav-list__bullet"><button class="br-1" @click="handleLogout">Logout</button></li>
+        <li v-if="userStore.currentUserId" class="nav-list__bullet"><ButtonMd label="logout" bg-color="var(--white)" @btn-click="handleLogout"/></li>
       </div>
     </ul>
   </nav>
