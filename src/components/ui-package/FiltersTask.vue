@@ -37,7 +37,6 @@ const toggleModal = () => {
 }
 
 const itemClicked = (item: typeof Priority | number) => {
-  console.log(item)
   emits("filters-clicked", item)
   show.value = false
 }

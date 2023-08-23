@@ -89,9 +89,9 @@ const deleteTask = (task: Tasks) => {
 .drag__task-score{
   padding: 2px 4px !important;
   background-color: var(--dark-blue);
-  border-radius: 30%;
+  border-radius: 50%;
   color: var(--white);
-  font-size: 14px !important;
+  font-size: 12px !important;
   -webkit-box-shadow: var(--box-shadow);
   -moz-box-shadow: var(--box-shadow);
   box-shadow: var(--box-shadow);

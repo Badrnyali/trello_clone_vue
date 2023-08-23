@@ -18,7 +18,7 @@
   --dark-blue: #526d82;
   --medium-blue: #c4c4c4;
   --hover-medium-blue: #686868;
-  --light-blue: #091e4224;
+  --light-blue: #c4c4ce;
   --very-light-blue: #f1f2f4;
   --box-shadow: 0px 1px 1px var(--light-blue), 0px 0px 1px var(--light-blue), 0 1px 1px var(--light-blue), 0 0 1px var(--light-blue);
   --readonly-bg: #dde6ed77;
@@ -75,9 +75,7 @@ button {
   cursor: pointer;
   transition: all 0.25s ease;
 }
-button:not(.no-styles):hover {
-  transform: scale(1.05);
-}
+
 label {
   text-align: left;
 }
@@ -162,8 +160,5 @@ textarea:read-only {
   :root {
     color: #213547;
     background-color: var(--white);
-  }
-  button:not(.no-styles) {
-    background-color: #f9f9f9;
   }
 }

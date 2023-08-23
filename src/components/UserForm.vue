@@ -2,6 +2,7 @@
 import { ref } from "vue";
 import FormInput from './FormInput.vue';
 import { NewUser } from "../interfaces"
+import ButtonMd from "./ui-package/ButtonMd.vue";
 
 const emit = defineEmits<{
   (event: "submit", user: NewUser): void
@@ -26,29 +27,15 @@ const handleSubmit = async () => {
 </script>
 
 <template>
-  <form class="form" action="" @submit.prevent="handleSubmit">
+  <form class="form" @submit.prevent>
     <FormInput v-model="username" type="text" name="Username" />
     <FormInput v-model="password" type="password" name="Password" />
     <p v-if="error">{{ error }}</p>
-    <button type="submit" class="submit no-styles">{{ cta }}</button>
+    <ButtonMd :label="cta" @btn-click="handleSubmit" class="submit no-styles" />
   </form>
 </template>
 <style>
 .form input {
   width: calc(100% - 55px) !important;
-}
-
-.form button.submit {
-  background-color: var(--light-blue);
-  color: var(--text-color);
-  font-weight: bolder;
-}
-.form button.submit:hover{
-  background-color: var(--very-light-blue);
-  color: #000;
-}
-
-.dark .form button {
-  background-color: #635fc7;
 }
 </style>
